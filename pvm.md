@@ -22,6 +22,27 @@ T* a ; auto x = &a ; T**
 # SYNTAX
 
 ```
+void foo(T& x);
+T* x;
+
+foo(*x);
+```
+
+```
+void foo(T* x);
+const T x;
+
+None of the above works, or it's impossible
+```
+
+```
+void foo(T& x);
+const T x;
+
+None of the above works, or it's impossible
+```
+
+```
 You are writing a templated function called contains that checks if some value x is an element of some vector<T>
 How should x best be passed to this function
 
@@ -82,6 +103,8 @@ foo(x)
 ```
 void foo(const T x);
 std::shared_ptr<T> x;
+
+foo(*x)
 ```
 
 ```
@@ -103,6 +126,13 @@ Antw: const T&
 ```
 You need to pass a std::vector<double> to a fucntion. The function stores it somewhere for later use and the same vector will also be kept track of in other parts of the code
 shared_ptr<T>
+```
+
+```
+You are creating a templated collection class(such as std::vector<T>), The add method takes an element and copies it ot it's internal data structure
+How should this new element best be passed?
+
+const T&
 ```
 
 ```
@@ -670,6 +700,33 @@ int main()
   P(']');
 }//[a]c
 ```
+
+```
+#include <iostream>
+#define P(x) std::cout << x;
+
+
+struct Foo
+
+{
+  Foo() { P('a'); }
+  Foo(const Foo&){ P('b'); }
+  ~Foo(){ P('c'); }
+};
+void bar(Foo* foo)
+{
+}
+
+int main()
+{
+  P('[');
+  Foo foo;
+  bar(&foo);
+  P(']');
+}//[a]c
+```
+
+
 
 What is the minimal amount of storage bits needed to store the grades of 150 students?
 
